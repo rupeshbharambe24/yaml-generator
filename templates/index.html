@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spheron YAML Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='prism.css') }}">
+</head>
+<body>
+    <div class="min-h-screen bg-zinc-900 p-8">
+        <div class="max-w-4xl mx-auto space-y-6">
+            <h1 class="text-2xl font-bold text-center text-zinc-100">Spheron YAML Generator</h1>
+            <div class="space-y-4">
+                <label for="prompt" class="block text-lg text-zinc-200">
+                    Paste your Prompt here:
+                </label>
+                <div class="relative">
+                    <textarea
+                        id="prompt"
+                        placeholder="I want a Node.js service with auto-scaling and 1 GB of memory"
+                        class="w-full min-h-[100px] p-4 bg-zinc-800 border border-zinc-700 rounded-lg text-zinc-200 placeholder:text-zinc-400 focus:outline-none focus:border-red-500"
+                    ></textarea>
+                </div>
+                <button 
+                    id="generate-btn"
+                    class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
+                >
+                    Submit Prompt
+                </button>
+            </div>
+
+            <div id="output" class="space-y-4 hidden">
+                <h2 class="text-lg text-zinc-200">Generated YAML:</h2>
+                <div class="relative group">
+                    <pre class="p-4 bg-zinc-800 rounded-lg overflow-x-auto"><code class="language-yaml"></code></pre>
+                    <button
+                        class="copy-button absolute top-2 right-2 px-2 py-1 bg-zinc-700 text-zinc-200 rounded opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                        Copy
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='prism.js') }}"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+
