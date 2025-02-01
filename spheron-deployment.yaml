@@ -1,0 +1,47 @@
+version: "1.0"
+services:
+  gpu-test:
+    image: rbtech44/yaml-generator:latest
+    expose:
+      - port: 5000
+        as: 5000
+        to:
+          - global: true
+    env:
+      - GEMINI_API_KEY=AIzaSyAvQ7PuUsKv6VuO07DhqfUkgPiSqy6iArs
+profiles:
+  name: hello-world
+  mode: provider
+  duration: 1h
+  tier:
+    - community
+  compute:
+    gpu-test:
+      resources:
+        cpu:
+          units: 1
+        memory:
+          size: 20Gi
+        storage:
+          - size: 100Gi
+        gpu:
+          units: 1
+          attributes:
+            vendor:
+              nvidia:
+                - model: rtx4090
+  placement:
+    westcoast:
+      attributes:
+        region: us-central
+      pricing:
+        gpu-test:
+          token: CST
+          amount: 5
+deployment:
+  gpu-test:
+    westcoast:
+      profile: gpu-test
+      count: 1
+
+      
