@@ -19,14 +19,10 @@ Before using the generator, ensure you have:
 ## 📥 Installation
 1. Clone the repository:
    ```sh
-   git clone https://github.com/your-username/spheron-yaml-generator.git
+   git clone https://github.com/rupeshbharambe2004/spheron-yaml-generator.git
    cd spheron-yaml-generator
    ```
 2. Install dependencies:
-   ```sh
-   npm install  # If using Node.js
-   ```
-   OR
    ```sh
    pip install -r requirements.txt  # If using Python
    ```
@@ -34,11 +30,7 @@ Before using the generator, ensure you have:
 ## 🛠️ Usage
 1. Run the YAML Generator:
    ```sh
-   npm start  # If using Node.js
-   ```
-   OR
-   ```sh
-   python generate_yaml.py  # If using Python
+   python app.py  # If using Python
    ```
 2. Follow the prompts to input deployment details.
 3. The tool generates an `spheron-deploy.yaml` file.
@@ -89,11 +81,8 @@ deployment:
 ## 🔥 Contributing
 We welcome contributions! Feel free to fork the repo and submit pull requests.
 
-## 📜 License
-This project is licensed under the **MIT License**.
-
 ## 📧 Contact
-For any questions, reach out via **[issues](https://github.com/your-username/spheron-yaml-generator/issues)** or **email@example.com**.
+For any questions, reach out via **[issues](https://github.com/rupeshbharambe2004/yaml-generator/issues)** or **rupeshbharambe2004@example.com**.
 
 🚀 **Deploy on Spheron and scale effortlessly!**
 
