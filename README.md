@@ -16,6 +16,7 @@ Before using the generator, ensure you have:
 - **WSL 2** (if using Windows) ([Install WSL](https://learn.microsoft.com/en-us/windows/wsl/install))
 - **Spheron CLI** installed ([Spheron Docs](https://docs.spheron.network/user-guide/deploy-your-app))
 
+## Try project at: [YAML-Generator](https://yaml-generator-production.up.railway.app/)
 ## 📥 Installation
 1. Clone the repository:
    ```sh
