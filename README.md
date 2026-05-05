@@ -1,89 +1,64 @@
 # Spheron YAML Generator
 
-## 🚀 Overview
-The **Spheron YAML Generator** is an AI-powered tool designed to automate the creation of **Infrastructure Composition Language (ICL)** files for deploying applications on the **Spheron Network**. This tool helps developers generate structured YAML files compatible with **Spheron CLI (sphnctl)**, enabling seamless cloud deployments.
+A small Flask web app that uses the Gemini API to generate Spheron Infrastructure Composition Language (ICL) YAML configurations from natural-language prompts.
 
-## 🌟 Features
-- **Automated ICL File Generation** – No need to manually write YAML files.
-- **Customizable Infrastructure** – Define services, compute, storage, and networking configurations.
-- **Multi-Service Support** – Works for frontend, backend, databases, and GPU-powered apps.
-- **Optimized for Spheron Deployment** – Ensures smooth integration with **Spheron CLI**.
-- **Multi-Region & Pricing Support** – Configure deployment locations and cost-effective resource allocation.
+## What it does
 
-## 📌 Prerequisites
-Before using the generator, ensure you have:
-- **Docker** installed ([Get Docker](https://docs.docker.com/get-docker/))
-- **WSL 2** (if using Windows) ([Install WSL](https://learn.microsoft.com/en-us/windows/wsl/install))
-- **Spheron CLI** installed ([Spheron Docs](https://docs.spheron.network/user-guide/deploy-your-app))
+You describe your deployment in plain English (services, compute, storage, region, etc.) and the app calls Gemini to draft a corresponding `spheron-deploy.yaml`. The output is parsed with PyYAML, re-serialized for clean indentation, and validated before being returned to the user.
 
-## Try project at: [YAML-Generator](https://yaml-generator-production.up.railway.app/)
-## 📥 Installation
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/rupeshbharambe2004/spheron-yaml-generator.git
-   cd spheron-yaml-generator
-   ```
-2. Install dependencies:
-   ```sh
-   pip install -r requirements.txt  # If using Python
-   ```
+## Tech Stack
 
-## 🛠️ Usage
-1. Run the YAML Generator:
-   ```sh
-   python app.py  # If using Python
-   ```
-2. Follow the prompts to input deployment details.
-3. The tool generates an `spheron-deploy.yaml` file.
-4. Deploy using **Spheron CLI**:
-   ```sh
-   sphnctl deploy -f spheron-deploy.yaml
-   ```
+- Backend: Flask, Flask-CORS
+- LLM: Google Gemini (`gemini-pro` via `google-generativeai`)
+- YAML parsing/validation: PyYAML
+- Frontend: HTML + Tailwind + Prism.js for syntax highlighting
+- Deployment: Dockerfile + `render.yaml` (Render) and `spheron-deployment.yaml` (Spheron)
 
-## 📄 Example ICL File
-```yaml
-version: "1.0"
-services:
-  my-app:
-    image: my-docker-image:latest
-    expose:
-      - port: 3000
-        as: 80
-        to:
-          - global: true
-profiles:
-  name: app-profile
-  mode: provider
-  duration: 1h
-  compute:
-    my-app:
-      resources:
-        cpu:
-          units: 2
-        memory:
-          size: 8Gi
-        storage:
-          - size: 50Gi
-  placement:
-    default:
-      attributes:
-        region: us-central
-      pricing:
-        my-app:
-          token: CST
-          amount: 3
-deployment:
-  my-app:
-    default:
-      profile: my-app
-      count: 1
+## Project Structure
+
+```
+yaml-generator/
+├── app.py                      # Flask backend (/, /generate-yaml endpoints)
+├── templates/                  # index.html
+├── static/                     # static assets
+├── script.js, index.tsx        # client-side logic
+├── styles.css, prism-custom.css, tailwind.config.ts
+├── Dockerfile
+├── render.yaml                 # Render deployment config
+├── spheron-deployment.yaml     # Spheron ICL example
+├── requirements.txt
+└── .env.example
 ```
 
-## 🔥 Contributing
-We welcome contributions! Feel free to fork the repo and submit pull requests.
+## Setup
 
-## 📧 Contact
-For any questions, reach out via **[issues](https://github.com/rupeshbharambe2004/yaml-generator/issues)** or **rupeshbharambe2004@example.com**.
+```bash
+git clone https://github.com/rupeshbharambe24/yaml-generator.git
+cd yaml-generator
 
-🚀 **Deploy on Spheron and scale effortlessly!**
+python -m venv venv
+source venv/bin/activate          # Windows: venv\Scripts\activate
+pip install -r requirements.txt
 
+cp .env.example .env
+# Edit .env and set GEMINI_API_KEY
+
+python app.py
+```
+
+Open `http://localhost:5000` and submit a prompt.
+
+## API
+
+`POST /generate-yaml`
+```json
+{ "prompt": "deploy a node.js service with 2 CPU and 8Gi RAM in us-central" }
+```
+Returns:
+```json
+{ "yaml": "version: \"1.0\"\nservices:\n  ..." }
+```
+
+## Notes
+
+This is a small utility project — a single-purpose wrapper around an LLM call with light YAML validation. Not intended for production use without further hardening (rate limits, output schema enforcement, auth).
